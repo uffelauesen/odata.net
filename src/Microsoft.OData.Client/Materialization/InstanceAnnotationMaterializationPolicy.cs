@@ -225,12 +225,12 @@ namespace Microsoft.OData.Client.Materialization
         {
             if (declaringInstance != null)
             {
-                UndeclaredPropertyBehavior undeclaredPropertyBehavior = this.MaterializerContext.Context.UndeclaredPropertyBehavior;
+                bool ignoreMissingProperty = this.MaterializerContext.Context.IgnoreMissingProperties;
 
                 // Get the client property info
                 ClientEdmModel edmModel = this.MaterializerContext.Model;
                 ClientTypeAnnotation clientTypeAnnotation = edmModel.GetClientTypeAnnotation(edmModel.GetOrCreateEdmType(type));
-                ClientPropertyAnnotation clientPropertyAnnotation = clientTypeAnnotation.GetProperty(propertyName, undeclaredPropertyBehavior);
+                ClientPropertyAnnotation clientPropertyAnnotation = clientTypeAnnotation.GetProperty(propertyName, ignoreMissingProperty);
                 Tuple<object, MemberInfo> annotationKeyForProperty = new Tuple<object, MemberInfo>(declaringInstance, clientPropertyAnnotation.PropertyInfo);
                 SetInstanceAnnotations(annotationKeyForProperty, instanceAnnotations);
             }
@@ -313,7 +313,7 @@ namespace Microsoft.OData.Client.Materialization
 
                     // TODO: check if ComplexType inheritance will cause any issue
                     var complexInstance = this.ComplexValueMaterializationPolicy.CreateNewInstance(complexType.EdmTypeReference, complexType.ElementType);
-                    this.ComplexValueMaterializationPolicy.MaterializeDataValues(complexType, complexValue.Properties, this.MaterializerContext.UndeclaredPropertyBehavior);
+                    this.ComplexValueMaterializationPolicy.MaterializeDataValues(complexType, complexValue.Properties, this.MaterializerContext.IgnoreMissingProperties);
                     this.ComplexValueMaterializationPolicy.ApplyDataValues(complexType, complexValue.Properties, complexInstance);
                     clrInstanceAnnotation = complexInstance;
                     return true;

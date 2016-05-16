@@ -99,7 +99,7 @@ namespace Microsoft.Test.OData.Tests.Client.CodeGenerationTests
         public void BasicModify()
         {
             TestClientContext.MergeOption = Microsoft.OData.Client.MergeOption.OverwriteChanges;
-            ///TestClientContext.UndeclaredPropertyBehavior = ODataClient.UndeclaredPropertyBehavior.Support;
+            TestClientContext.IgnoreMissingProperties = true;
             // AddRelatedObject
             AccountPlus newAccount1 = new AccountPlus()
             {

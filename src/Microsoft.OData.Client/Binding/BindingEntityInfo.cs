@@ -259,7 +259,7 @@ namespace Microsoft.OData.Client
             if (!propertyFound)
             {
                 clientProperty = BindingEntityInfo.GetClientType(sourceType, model)
-                    .GetProperty(sourceProperty, UndeclaredPropertyBehavior.Support);
+                    .GetProperty(sourceProperty, true);
 
                 propertyFound = clientProperty != null;
                 if (!propertyFound)

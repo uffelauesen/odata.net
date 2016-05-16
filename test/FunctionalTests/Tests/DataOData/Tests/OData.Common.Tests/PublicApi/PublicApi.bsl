@@ -3874,9 +3874,9 @@ public enum Microsoft.OData.ODataReaderState : int {
 FlagsAttribute(),
 ]
 public enum Microsoft.OData.ODataUndeclaredPropertyBehaviorKinds : int {
+	IgnoreUndeclaredValueProperty = 1
 	None = 0
 	ReportUndeclaredLinkProperty = 2
-	SupportUndeclaredValueProperty = 1
 }
 
 public enum Microsoft.OData.ODataVersion : int {
@@ -4732,7 +4732,7 @@ public sealed class Microsoft.OData.ODataMessageReader : IDisposable {
 	public System.Threading.Tasks.Task`1[[System.Object]] ReadValueAsync (Microsoft.OData.Edm.IEdmTypeReference expectedTypeReference)
 }
 
-public sealed class Microsoft.OData.ODataMessageReaderSettings : IMessageValidationSetting {
+public sealed class Microsoft.OData.ODataMessageReaderSettings {
 	public ODataMessageReaderSettings ()
 	public ODataMessageReaderSettings (Microsoft.OData.ODataMessageReaderSettings other)
 
@@ -4742,14 +4742,14 @@ public sealed class Microsoft.OData.ODataMessageReaderSettings : IMessageValidat
 	bool DisableMessageStreamDisposal  { public get; public set; }
 	bool DisablePrimitiveTypeConversion  { public get; public set; }
 	bool EnableCharactersCheck  { public get; public set; }
-	bool EnableFullValidation  { public virtual get; public virtual set; }
+	bool EnableFullValidation  { public get; public set; }
 	bool EnableLaxMetadataValidation  { public get; public set; }
 	bool EnableReadingEntryContentInEntryStartState  { public get; public set; }
 	Microsoft.OData.ODataVersion MaxProtocolVersion  { public get; public set; }
 	Microsoft.OData.ODataMessageQuotas MessageQuotas  { public get; public set; }
 	bool ODataSimplified  { public get; public set; }
 	System.Func`2[[System.String],[System.Boolean]] ShouldIncludeAnnotation  { public get; public set; }
-	Microsoft.OData.ODataUndeclaredPropertyBehaviorKinds UndeclaredPropertyBehaviorKinds  { public virtual get; public virtual set; }
+	Microsoft.OData.ODataUndeclaredPropertyBehaviorKinds UndeclaredPropertyBehaviorKinds  { public get; public set; }
 	System.Nullable`1[[System.Boolean]] UseKeyAsSegment  { public get; public set; }
 }
 
@@ -4801,7 +4801,7 @@ public sealed class Microsoft.OData.ODataMessageWriter : IDisposable {
 	public System.Threading.Tasks.Task WriteValueAsync (object value)
 }
 
-public sealed class Microsoft.OData.ODataMessageWriterSettings : IMessageValidationSetting {
+public sealed class Microsoft.OData.ODataMessageWriterSettings {
 	public ODataMessageWriterSettings ()
 	public ODataMessageWriterSettings (Microsoft.OData.ODataMessageWriterSettings other)
 
@@ -4811,13 +4811,12 @@ public sealed class Microsoft.OData.ODataMessageWriterSettings : IMessageValidat
 	System.Uri BaseUri  { public get; public set; }
 	bool DisableMessageStreamDisposal  { public get; public set; }
 	bool EnableCharactersCheck  { public get; public set; }
-	bool EnableFullValidation  { public virtual get; public virtual set; }
+	bool EnableFullValidation  { public get; public set; }
 	bool EnableIndentation  { public get; public set; }
 	string JsonPCallback  { public get; public set; }
 	Microsoft.OData.ODataMessageQuotas MessageQuotas  { public get; public set; }
 	bool ODataSimplified  { public get; public set; }
 	Microsoft.OData.ODataUri ODataUri  { public get; public set; }
-	Microsoft.OData.ODataUndeclaredPropertyBehaviorKinds UndeclaredPropertyBehaviorKinds  { public virtual get; public virtual set; }
 	System.Nullable`1[[System.Boolean]] UseKeyAsSegment  { public get; public set; }
 	System.Nullable`1[[Microsoft.OData.ODataVersion]] Version  { public get; public set; }
 
@@ -4997,7 +4996,6 @@ public enum Microsoft.OData.Json.JsonNodeType : int {
 public interface Microsoft.OData.Json.IJsonReader {
 	bool IsIeee754Compatible  { public abstract get; }
 	Microsoft.OData.Json.JsonNodeType NodeType  { public abstract get; }
-	string RawValue  { public abstract get; }
 	object Value  { public abstract get; }
 
 	bool Read ()
@@ -6354,6 +6352,7 @@ public class Microsoft.OData.Client.DataServiceContext {
 	Microsoft.OData.Client.EntityParameterSendOption EntityParameterSendOption  { public get; public set; }
 	Microsoft.OData.Client.EntityTracker EntityTracker  { public get; public set; }
 	Microsoft.OData.Client.DataServiceClientFormat Format  { public get; }
+	bool IgnoreMissingProperties  { public get; public set; }
 	bool IgnoreResourceNotFoundException  { public get; public set; }
 	System.Collections.ObjectModel.ReadOnlyCollection`1[[Microsoft.OData.Client.LinkDescriptor]] Links  { public get; }
 	Microsoft.OData.Client.ODataProtocolVersion MaxProtocolVersion  { public get; }

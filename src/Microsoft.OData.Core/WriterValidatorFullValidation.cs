@@ -46,15 +46,16 @@ namespace Microsoft.OData
         /// <param name="propertyName">The name of the property to validate.</param>
         /// <param name="owningStructuredType">The owning type of the property with name <paramref name="propertyName"/> 
         /// or null if no metadata is available.</param>
-        /// <param name="messageValidationSetting">The IMessageValidationSetting object.</param>
+        /// <param name="throwOnMissingProperty">Whether throw exception on missing property.</param>
         /// <returns>The <see cref="IEdmProperty"/> instance representing the property with name <paramref name="propertyName"/> 
         /// or null if no metadata is available.</returns>
         public IEdmProperty ValidatePropertyDefined(
             string propertyName,
             IEdmStructuredType owningStructuredType,
-            IMessageValidationSetting messageValidationSetting)
+            bool throwOnMissingProperty = true)
         {
-            return WriterValidationUtils.ValidatePropertyDefined(propertyName, owningStructuredType, messageValidationSetting);
+            return WriterValidationUtils.ValidatePropertyDefined(propertyName, owningStructuredType,
+                throwOnMissingProperty);
         }
 
         /// <summary>

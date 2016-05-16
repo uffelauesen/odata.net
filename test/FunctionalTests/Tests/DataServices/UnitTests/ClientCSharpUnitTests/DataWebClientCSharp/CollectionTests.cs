@@ -1038,7 +1038,7 @@ namespace AstoriaUnitTests.DataWebClientCSharp
                             host.BaseUri);
 
                         DataServiceContext ctx = GetContextForCollectionMaterializationTestCases(host.BaseUri);
-                        ctx.UndeclaredPropertyBehavior = UndeclaredPropertyBehavior.Support;
+                        ctx.IgnoreMissingProperties = false;
 
                         Type entityType = GetEntityTypeForCollectionMaterializationTestCases(entityGenericType, collectionGenericType, testCase.CollectionItemType);
                         entityType.GetProperty("InitialCollectionValues", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).SetValue(null, initializeCollection ? testCase.ValuesToInitializeCollection : null, null);
@@ -1252,7 +1252,7 @@ X-Powered-By: ASP.NET
                         collectionPayload.ToString());
 
                         DataServiceContext ctx = GetContextForCollectionMaterializationTestCases(host.BaseUri);
-                        ctx.UndeclaredPropertyBehavior = UndeclaredPropertyBehavior.Support;
+                        ctx.IgnoreMissingProperties = false;
                         Type entityType = GetEntityTypeForCollectionMaterializationTestCases(entityGenericType, collectionGenericType, testCase.CollectionItemType);
                         entityType.GetProperty("InitialCollectionValues", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).SetValue(null, initializeCollection ? testCase.ValuesToInitializeCollection : null, null);
 

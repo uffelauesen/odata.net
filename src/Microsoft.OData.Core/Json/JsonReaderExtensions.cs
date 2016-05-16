@@ -7,7 +7,6 @@
 namespace Microsoft.OData.Json
 {
     using System.Diagnostics;
-    using System.Text;
 
     /// <summary>
     /// Extension methods for the JSON reader.
@@ -183,16 +182,6 @@ namespace Microsoft.OData.Json
         /// </remarks>
         internal static void SkipValue(this IJsonReader jsonReader)
         {
-            SkipValue(jsonReader, null);
-        }
-
-        /// <summary>
-        /// Skips over a JSON value (primitive, object or array), and append raw string to StringBuilder.
-        /// </summary>
-        /// <param name="jsonReader">The <see cref="JsonReader"/> to read from.</param>
-        /// <param name="jsonRawValueStringBuilder">The StringBuilder to receive JSON raw string.</param>
-        internal static void SkipValue(this IJsonReader jsonReader, StringBuilder jsonRawValueStringBuilder)
-        {
             Debug.Assert(jsonReader != null, "jsonReader != null");
 
             int depth = 0;
@@ -218,27 +207,9 @@ namespace Microsoft.OData.Json
                         break;
                 }
 
-                if (jsonRawValueStringBuilder != null)
-                {
-                    jsonRawValueStringBuilder.Append(jsonReader.RawValue);
-                }
-
                 jsonReader.ReadNext();
             }
             while (depth > 0);
-        }
-
-        internal static ODataValue ReadAsUntypedOrNullValue(this IJsonReader jsonReader)
-        {
-            ODataValue propertyValue;
-            StringBuilder builder = new StringBuilder();
-            jsonReader.SkipValue(builder);
-            propertyValue = new ODataUntypedValue()
-            {
-                RawValue = builder.ToString(),
-            };
-
-            return propertyValue;
         }
 
         /// <summary>

@@ -21,9 +21,9 @@ namespace Microsoft.OData.Client.Materialization
         DataServiceContext Context { get; }
 
         /// <summary>
-        /// Gets a value indicating whether to support untyped properties is set or not
+        /// Gets a value indicating whether Ignore missing properties is set or not
         /// </summary>
-        UndeclaredPropertyBehavior UndeclaredPropertyBehavior { get; }
+        bool IgnoreMissingProperties { get; }
 
         /// <summary>
         /// Gets a value indicated the Client Edm Model

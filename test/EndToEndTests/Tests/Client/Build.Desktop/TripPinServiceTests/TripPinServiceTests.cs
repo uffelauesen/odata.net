@@ -194,7 +194,7 @@ namespace Microsoft.Test.OData.Tests.Client.ODataWCFServiceTests
                 {
                     entry = new QueryEntryHelper(this) { RequestUri = string.Format("People('{0}')", userNames[i]), MimeType = mimeTypes[i], IfMatch = "*" }.Execute();
                     var nickName = entry.Properties.Single(p => p.Name == "NickName").Value;
-                    Assert.AreEqual("\"NickName\"", (entry.Properties.Single(p => p.Name == "NickName").Value as ODataUntypedValue).RawValue);
+                    Assert.AreEqual("NickName", entry.Properties.Single(p => p.Name == "NickName").Value);
                 }
             }
         }
@@ -241,7 +241,6 @@ namespace Microsoft.Test.OData.Tests.Client.ODataWCFServiceTests
 
                 if (!mimeTypes[i].Contains(MimeTypes.ODataParameterNoMetadata))
                 {
-
                     var entry = new QueryEntryHelper(this)
                     {
                         RequestUri = string.Format("People('russellwhyte')/Trips(0)/PlanItems(12)/{0}Event", NameSpacePrefix),
@@ -251,7 +250,7 @@ namespace Microsoft.Test.OData.Tests.Client.ODataWCFServiceTests
                             {
                                 if (argument.Entry.TypeName.EndsWith("EventLocation"))
                                 {
-                                     Assert.AreEqual("" + (100 + i), (argument.Entry.Properties.Single(p => p.Name == "RoomNumber").Value as ODataUntypedValue).RawValue);
+                                     Assert.AreEqual(100 + i, argument.Entry.Properties.Single(p => p.Name == "RoomNumber").Value);
                                 }
                             }
                     }.Execute();

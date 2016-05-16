@@ -110,13 +110,6 @@ namespace Microsoft.OData.Client.Materialization
                 }
                 else
                 {
-                    ODataUntypedValue untypedVal = value as ODataUntypedValue;
-                    if ((untypedVal != null)
-                        && this.context.UndeclaredPropertyBehavior == UndeclaredPropertyBehavior.Support)
-                    {
-                        value = CommonUtil.ParseJsonToPrimitiveValue(untypedVal.RawValue);
-                    }
-
                     materializedValue = this.PrimitivePropertyConverter.ConvertPrimitiveValue(value, underlyingType);
                 }
             }

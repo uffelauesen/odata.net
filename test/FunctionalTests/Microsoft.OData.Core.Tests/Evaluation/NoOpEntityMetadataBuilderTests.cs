@@ -13,7 +13,7 @@ using Xunit;
 
 namespace Microsoft.OData.Tests.Evaluation
 {
-    public class NoOpResourceMetadataBuilderTests
+    public class NoOpEntityMetadataBuilderTests
     {
         [Fact]
         public void NoOpMetadataBuilderShouldReturnEditLinkSetByUser()

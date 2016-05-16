@@ -6,8 +6,8 @@
 
 namespace Microsoft.OData.Client
 {
+    using System;
     using System.Diagnostics;
-    using Microsoft.OData;
     using Microsoft.OData.Client.Metadata;
 
     /// <summary>
@@ -60,24 +60,12 @@ namespace Microsoft.OData.Client
             get { return this.mergeOption; }
         }
 
-        /// <summary>Gets the value of UndeclaredPropertyBehaviorKinds.</summary>
-        internal ODataUndeclaredPropertyBehaviorKinds UndeclaredPropertyBehaviorKinds
+        /// <summary>Whether to ignore extra properties in the response payload.</summary>
+        internal bool IgnoreMissingProperties
         {
-            get
-            {
-                if (this.Context.UndeclaredPropertyBehavior == UndeclaredPropertyBehavior.Support)
-                {
-                    return ODataUndeclaredPropertyBehaviorKinds.SupportUndeclaredValueProperty;
-                }
-                else
-                {
-                    Debug.Assert(this.Context.UndeclaredPropertyBehavior == UndeclaredPropertyBehavior.ThrowException,
-                        "this.Context.UndeclaredPropertyBehavior == UndeclaredPropertyBehavior.ThrowException");
-                    return ODataUndeclaredPropertyBehaviorKinds.None;
-                }
-            }
+            get { return this.Context.IgnoreMissingProperties; }
         }
-        
+
         /// <summary>Returns the instance of entity tracker class which tracks all the entities and links for the context.</summary>
         internal EntityTracker EntityTracker
         {
@@ -155,9 +143,9 @@ namespace Microsoft.OData.Client
         /// <param name="entityDescriptor">Entity whose property is being loaded.</param>
         /// <param name="property">Property which is being loaded.</param>
         internal LoadPropertyResponseInfo(
-            RequestInfo requestInfo,
-            MergeOption mergeOption,
-            EntityDescriptor entityDescriptor,
+            RequestInfo requestInfo, 
+            MergeOption mergeOption, 
+            EntityDescriptor entityDescriptor, 
             ClientPropertyAnnotation property)
             : base(requestInfo, mergeOption)
         {

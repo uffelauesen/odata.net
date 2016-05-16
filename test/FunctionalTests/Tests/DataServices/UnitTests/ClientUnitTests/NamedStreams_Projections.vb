@@ -266,7 +266,7 @@ Public Class NamedStream_ProjectionTests_VB
             Dim context As New DataServiceContext(request.ServiceRoot, ODataProtocolVersion.V4)
             'context.EnableAtom = True
             'context.Format.UseAtom()
-            context.UndeclaredPropertyBehavior = UndeclaredPropertyBehavior.Support
+            context.IgnoreMissingProperties = True
             Dim q = context.CreateQuery(Of StreamWithUrl)("MySet1")
 
             For Each o As StreamWithUrl In q

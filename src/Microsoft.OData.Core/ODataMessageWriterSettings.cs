@@ -14,7 +14,7 @@ namespace Microsoft.OData
     /// <summary>
     /// Configuration settings for OData message writers.
     /// </summary>
-    public sealed class ODataMessageWriterSettings : IMessageValidationSetting
+    public sealed class ODataMessageWriterSettings
     {
         /// <summary>
         /// The acceptable charsets used to the determine the encoding of the message.
@@ -70,7 +70,6 @@ namespace Microsoft.OData
             this.DisableMessageStreamDisposal = false;
             this.EnableCharactersCheck = false;
             this.EnableFullValidation = true;
-            this.UndeclaredPropertyBehaviorKinds = ODataUndeclaredPropertyBehaviorKinds.SupportUndeclaredValueProperty;
             this.EnableIndentation = false;
             this.ODataSimplified = false;
         }
@@ -90,7 +89,6 @@ namespace Microsoft.OData
             this.DisableMessageStreamDisposal = other.DisableMessageStreamDisposal;
             this.EnableCharactersCheck = other.EnableCharactersCheck;
             this.EnableFullValidation = other.EnableFullValidation;
-            this.UndeclaredPropertyBehaviorKinds = other.UndeclaredPropertyBehaviorKinds;
             this.EnableIndentation = other.EnableIndentation;
             this.format = other.format;
             this.JsonPCallback = other.JsonPCallback;
@@ -160,11 +158,6 @@ namespace Microsoft.OData
         /// Default to true.
         /// </summary>
         public bool EnableFullValidation { get; set; }
-
-        /// <summary>
-        /// Gets or sets UndeclaredPropertyBehaviorKinds.
-        /// </summary>
-        public ODataUndeclaredPropertyBehaviorKinds UndeclaredPropertyBehaviorKinds { get; set; }
 
         /// <summary>
         /// Flag to control whether the writer should use indentation or not.

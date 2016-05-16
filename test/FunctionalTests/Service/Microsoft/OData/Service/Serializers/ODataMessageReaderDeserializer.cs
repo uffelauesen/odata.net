@@ -84,19 +84,6 @@ namespace Microsoft.OData.Service.Serializers
             }
         }
 
-        public static object ParseJsonToPrimitiveValue(string rawValue)
-        {
-            Debug.Assert(rawValue != null && rawValue.Length > 0, "");
-            ODataCollectionValue collectionValue = (ODataCollectionValue)
-                Microsoft.OData.ODataUriUtils.ConvertFromUriLiteral(string.Format("[{0}]", rawValue), ODataVersion.V4);
-            foreach (object item in collectionValue.Items)
-            {
-                return item;
-            }
-
-            return null;
-        }
-
         /// <summary>
         /// Converts a primitive value read by ODataMessageReader into a primitive value acceptable by WCF DS.
         /// </summary>
@@ -232,12 +219,6 @@ namespace Microsoft.OData.Service.Serializers
             if (collection != null)
             {
                 return this.ConvertCollection(collection, resourceType);
-            }
-
-            if (odataValue is ODataUntypedValue)
-            {
-                object primitiveVal = ParseJsonToPrimitiveValue((odataValue as ODataUntypedValue).RawValue);
-                return ConvertPrimitiveValue(primitiveVal, ref resourceType);
             }
 
             Debug.Assert(!(odataValue is ODataStreamReferenceValue), "We should never get here for stream values.");

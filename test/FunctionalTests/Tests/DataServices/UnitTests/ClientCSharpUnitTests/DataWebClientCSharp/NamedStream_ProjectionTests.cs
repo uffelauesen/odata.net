@@ -334,7 +334,7 @@ namespace AstoriaUnitTests.DataWebClientCSharp
                 DataServiceContext context = new DataServiceContext(request.ServiceRoot, ODataProtocolVersion.V4);
                 //context.EnableAtom = true;
                 //context.Format.UseAtom();
-                context.UndeclaredPropertyBehavior = UndeclaredPropertyBehavior.Support;
+                context.IgnoreMissingProperties = true;
                 var q = context.CreateQuery<EntityWithStreamLink>("MySet1");
                 object entity = null;
 

@@ -999,7 +999,6 @@ namespace Microsoft.OData.Tests.ScenarioTests.Writer.JsonLight
             message.SetHeader("Content-Type", contentType);
             ODataMessageWriterSettings settings = new ODataMessageWriterSettings()
             {
-                UndeclaredPropertyBehaviorKinds = ODataUndeclaredPropertyBehaviorKinds.SupportUndeclaredValueProperty,
                 AutoComputePayloadMetadataInJson = autoComputePayloadMetadataInJson,
                 EnableFullValidation = enableFullValidation
             };

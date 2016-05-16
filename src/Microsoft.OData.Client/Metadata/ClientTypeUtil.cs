@@ -599,9 +599,9 @@ namespace Microsoft.OData.Client.Metadata
         /// </summary>
         /// <param name="t">The type used to get the client PropertyInfo.</param>
         /// <param name="serverDefinedName">Name from server.</param>
-        /// <param name="undeclaredPropertyBehavior">Flag to support untyped properties.</param>
+        /// <param name="ignoreMissingProperties">Flag to ignore missing properties.</param>
         /// <returns>Client PropertyInfo, or null if the method is not found.</returns>
-        internal static PropertyInfo GetClientPropertyInfo(Type t, string serverDefinedName, UndeclaredPropertyBehavior undeclaredPropertyBehavior)
+        internal static PropertyInfo GetClientPropertyInfo(Type t, string serverDefinedName, bool ignoreMissingProperties)
         {
             PropertyInfo propertyInfo = t.GetProperty(serverDefinedName);
             if (propertyInfo == null)
@@ -614,7 +614,7 @@ namespace Microsoft.OData.Client.Metadata
                          }).SingleOrDefault();
             }
 
-            if (propertyInfo == null && (undeclaredPropertyBehavior == UndeclaredPropertyBehavior.ThrowException))
+            if (propertyInfo == null && !ignoreMissingProperties)
             {
                 throw c.Error.InvalidOperation(c.Strings.ClientType_MissingProperty(t.ToString(), serverDefinedName));
             }
@@ -627,11 +627,11 @@ namespace Microsoft.OData.Client.Metadata
         /// </summary>
         /// <param name="t">The type used to get the client property name.</param>
         /// <param name="serverDefinedName">Name from server.</param>
-        /// <param name="undeclaredPropertyBehavior">Flag to support untyped properties.</param>
+        /// <param name="ignoreMissingProperties">Flag to ignore missing properties.</param>
         /// <returns>Client property name, or null if the property is not found.</returns>
-        internal static string GetClientPropertyName(Type t, string serverDefinedName, UndeclaredPropertyBehavior undeclaredPropertyBehavior)
+        internal static string GetClientPropertyName(Type t, string serverDefinedName, bool ignoreMissingProperties)
         {
-            PropertyInfo propertyInfo = GetClientPropertyInfo(t, serverDefinedName, undeclaredPropertyBehavior);
+            PropertyInfo propertyInfo = GetClientPropertyInfo(t, serverDefinedName, ignoreMissingProperties);
             return propertyInfo == null ? serverDefinedName : propertyInfo.Name;
         }
 

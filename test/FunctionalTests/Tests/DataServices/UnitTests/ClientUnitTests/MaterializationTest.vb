@@ -720,29 +720,29 @@ Partial Public Class ClientModule
         End Function
         'Remove Atom
         <Ignore> <TestCategory("Partition2")> <TestMethod()> Public Sub NothingExtraOrMissing()
-            ctx.UndeclaredPropertyBehavior = UndeclaredPropertyBehavior.ThrowException
+            ctx.IgnoreMissingProperties = False
             Assert.IsNotNull(ExtraMissing(Of NorthwindSimpleModel.Order_Details)(Nothing))
 
-            ctx.UndeclaredPropertyBehavior = UndeclaredPropertyBehavior.Support
+            ctx.IgnoreMissingProperties = True
             Assert.IsNotNull(ExtraMissing(Of NorthwindSimpleModel.Order_Details)(Nothing))
         End Sub
         'Remove Atom
         <Ignore> <TestCategory("Partition2")> <TestMethod()> Public Sub ExtraKey()
-            ctx.UndeclaredPropertyBehavior = UndeclaredPropertyBehavior.ThrowException
+            ctx.IgnoreMissingProperties = False
             Dim od = ExtraMissing(Of Order_Details_ExtraKeys)(New InvalidOperationException())
             Assert.IsNull(od)
 
-            ctx.UndeclaredPropertyBehavior = UndeclaredPropertyBehavior.Support
+            ctx.IgnoreMissingProperties = True
             Dim oe = ExtraMissing(Of Order_Details_ExtraKeys)(New InvalidOperationException())
             Assert.IsNull(oe)
         End Sub
         'Remove Atom
         <Ignore> <TestCategory("Partition2")> <TestMethod()> Public Sub ExtraProperty()
-            ctx.UndeclaredPropertyBehavior = UndeclaredPropertyBehavior.ThrowException
+            ctx.IgnoreMissingProperties = False
             Dim od = ExtraMissing(Of Order_Details_ExtraProperties)(New InvalidOperationException())
             Assert.IsNull(od)
 
-            ctx.UndeclaredPropertyBehavior = UndeclaredPropertyBehavior.Support
+            ctx.IgnoreMissingProperties = True
             Dim oe = ExtraMissing(Of Order_Details_ExtraProperties)(New InvalidOperationException())
             Assert.IsNull(oe)
 
@@ -750,50 +750,50 @@ Partial Public Class ClientModule
         'Remove Atom
         <Ignore> <TestCategory("Partition2")> <TestMethod()> Public Sub MismatchedNavigationPropertyType()
             ' Regression test for [Client-ODataLib-Integration] Astoria client does not fail if the client and server stream property does not match
-            ctx.UndeclaredPropertyBehavior = UndeclaredPropertyBehavior.ThrowException
+            ctx.IgnoreMissingProperties = False
             Dim od = MismatchedNavigationType(Of Orders_ElementNotEntityType)(New InvalidOperationException())
             Assert.IsNull(od)
 
-            ctx.UndeclaredPropertyBehavior = UndeclaredPropertyBehavior.Support
+            ctx.IgnoreMissingProperties = True
             Dim oe = MismatchedNavigationType(Of Orders_ElementNotEntityType)(New InvalidOperationException())
             Assert.IsNull(oe)
         End Sub
+
         'Doesn't check entry key properties before execute, So this case is invalid'
         <Ignore> <TestCategory("Partition2")> <TestMethod()> Public Sub MissingDescribedKey()
-            ctx.UndeclaredPropertyBehavior = UndeclaredPropertyBehavior.ThrowException
-
+            ctx.IgnoreMissingProperties = False
             ExtraMissing(Of Order_Details_MissingDescribedKey)(New InvalidOperationException())
 
-            ctx.UndeclaredPropertyBehavior = UndeclaredPropertyBehavior.Support
+            ctx.IgnoreMissingProperties = True
             ExtraMissing(Of Order_Details_MissingDescribedKey)(New InvalidOperationException())
         End Sub
         'Remove Atom
         <Ignore> <TestCategory("Partition2")> <TestMethod()> Public Sub MissingKey()
-            ctx.UndeclaredPropertyBehavior = UndeclaredPropertyBehavior.ThrowException
+            ctx.IgnoreMissingProperties = False
             ExtraMissing(Of Order_Details_MissingKeys)(New InvalidOperationException())
 
-            ctx.UndeclaredPropertyBehavior = UndeclaredPropertyBehavior.Support
+            ctx.IgnoreMissingProperties = True
             ExtraMissing(Of Order_Details_MissingKeys)(New InvalidOperationException())
         End Sub
         'Remove Atom
         <Ignore> <TestCategory("Partition2")> <TestMethod()> Public Sub MissingProperty()
-            ctx.UndeclaredPropertyBehavior = UndeclaredPropertyBehavior.ThrowException
+            ctx.IgnoreMissingProperties = False
             ExtraMissing(Of Order_Details_MissingProperties)(New InvalidOperationException())
 
-            ctx.UndeclaredPropertyBehavior = UndeclaredPropertyBehavior.Support
+            ctx.IgnoreMissingProperties = True
             ExtraMissing(Of Order_Details_MissingProperties)(New InvalidOperationException())
         End Sub
         'Remove Atom
         <Ignore> <TestCategory("Partition2")> <TestMethod()> Public Sub MissingLink()
-            ctx.UndeclaredPropertyBehavior = UndeclaredPropertyBehavior.ThrowException
+            ctx.IgnoreMissingProperties = False
             ExtraMissing(Of Order_Details_MissingLinks)(New InvalidOperationException())
 
-            ctx.UndeclaredPropertyBehavior = UndeclaredPropertyBehavior.Support
+            ctx.IgnoreMissingProperties = True
             ExtraMissing(Of Order_Details_MissingLinks)(Nothing)
         End Sub
         'Remove Atom
         <Ignore> <TestCategory("Partition2")> <TestMethod()> Public Sub CompetingDefaultAKeyID()
-            ctx.UndeclaredPropertyBehavior = UndeclaredPropertyBehavior.Support
+            ctx.IgnoreMissingProperties = True
             Assert.IsNotNull(ExtraMissing(Of AKey)(Nothing))
 
             Dim a As New AKey
@@ -807,7 +807,7 @@ Partial Public Class ClientModule
         End Sub
         'Remove Atom
         <Ignore> <TestCategory("Partition2")> <TestMethod()> Public Sub CompetingDefaultBKeyID()
-            ctx.UndeclaredPropertyBehavior = UndeclaredPropertyBehavior.Support
+            ctx.IgnoreMissingProperties = True
             Assert.IsNotNull(ExtraMissing(Of BKey)(Nothing))
 
             Dim b As New BKey

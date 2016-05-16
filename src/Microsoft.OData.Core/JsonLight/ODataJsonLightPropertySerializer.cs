@@ -180,22 +180,16 @@ namespace Microsoft.OData.JsonLight
             duplicatePropertyNamesChecker.CheckForDuplicatePropertyNames(property);
 
             WriteInstanceAnnotation(property, isTopLevel);
-            IEdmProperty edmProperty = WriterValidationUtils.ValidatePropertyDefined(
+
+            bool throwOnMissingProperty = this.JsonLightOutputContext.MessageWriterSettings.EnableFullValidation && !this.WritingResponse;
+            IEdmProperty edmProperty = this.WriterValidator.ValidatePropertyDefined(
                 propertyName,
                 owningType,
-                this.JsonLightOutputContext.MessageWriterSettings);
+                throwOnMissingProperty);
 
-            string wirePropertyName = isTopLevel ? JsonLightConstants.ODataValuePropertyName : propertyName;
             IEdmTypeReference propertyTypeReference = edmProperty == null ? null : edmProperty.Type;
-            ODataValue value = property.ODataValue;
 
-            // handle ODataUntypedValue
-            ODataUntypedValue untypedValue = property.Value as ODataUntypedValue;
-            if (untypedValue != null)
-            {
-                WriteUntypedValue(owningType, propertyName, wirePropertyName, untypedValue);
-                return;
-            }
+            ODataValue value = property.ODataValue;
 
             ODataStreamReferenceValue streamReferenceValue = value as ODataStreamReferenceValue;
             if (streamReferenceValue != null)
@@ -247,21 +241,12 @@ namespace Microsoft.OData.JsonLight
                 this.WriteCollectionProperty(property, collectionValue, propertyTypeReference, isTopLevel, isOpenPropertyType);
                 return;
             }
-        }
-
-        private void WriteUntypedValue(IEdmStructuredType owningType, string propertyName, string wirePropertyName, ODataUntypedValue untypedValue)
-        {
-            if (this.MessageWriterSettings.ShouldSupportUndeclaredProperty())
+            else
             {
-                this.JsonWriter.WriteName(wirePropertyName);
-                this.jsonLightValueSerializer.WriteUntypedValue(untypedValue);
+                ODataUntypedValue untypedValue = value as ODataUntypedValue;
+                this.WriteUntypedProperty(property, untypedValue, isTopLevel);
                 return;
             }
-
-            Debug.Assert(
-                this.MessageWriterSettings.ShouldThrowOnUndeclaredProperty(),
-                "this.MessageWriterSettings.ShouldThrowOnUndeclaredProperty()");
-            throw new ODataException(ODataErrorStrings.ValidationUtils_PropertyDoesNotExistOnType(propertyName, owningType.FullTypeName()));
         }
 
         /// <summary>
@@ -429,6 +414,23 @@ namespace Microsoft.OData.JsonLight
             // passing false for 'isTopLevel' because the outer wrapping object has already been written.
             this.JsonLightValueSerializer.WriteCollectionValue(collectionValue, propertyTypeReference, typeFromValue, isTopLevel, false /*isInUri*/, isOpenPropertyType);
             return;
+        }
+
+        /// <summary>
+        /// Writes a untyped property.
+        /// </summary>
+        /// <param name="property">The property to write out.</param>
+        /// <param name="untypedValue">The untyped value to be written</param>
+        /// <param name="isTopLevel">true when writing a top-level property; false for nested properties.</param>
+        private void WriteUntypedProperty(
+            ODataProperty property,
+            ODataUntypedValue untypedValue,
+            bool isTopLevel)
+        {
+            Debug.Assert(untypedValue != null, "untypedValue != null");
+
+            this.JsonWriter.WriteName(GetWirePropertyName(isTopLevel, property.Name));
+            this.JsonLightValueSerializer.WriteUntypedValue(untypedValue);
         }
 
         /// <summary>
