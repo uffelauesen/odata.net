@@ -28,6 +28,33 @@ namespace Microsoft.OData
         /// <summary>Maximum batch boundary length supported (not includeding leading CRLF or '-').</summary>
         private const int MaxBoundaryLength = 70;
 
+        #region undeclared property setting logic
+
+        /// <summary>
+        /// Retuns if undeclared property should be supported(read undeclared prmitive value into ODataUntypdValue).
+        /// </summary>
+        /// <param name="messageValidationSetting">The IMessageValidationSetting.</param>
+        /// <returns>True if undeclared property should be supported.</returns>
+        internal static bool ShouldSupportUndeclaredProperty(this IMessageValidationSetting messageValidationSetting)
+        {
+            // ignore messageValidationSetting.EnableFullValidation
+            return messageValidationSetting.UndeclaredPropertyBehaviorKinds.HasFlag(
+                ODataUndeclaredPropertyBehaviorKinds.SupportUndeclaredValueProperty);
+        }
+
+        /// <summary>
+        /// Retuns if undeclared property should lead to an exception.
+        /// </summary>
+        /// <param name="messageValidationSetting">The IMessageValidationSetting.</param>
+        /// <returns>True if undeclared property should cause exception.</returns>
+        internal static bool ShouldThrowOnUndeclaredProperty(this IMessageValidationSetting messageValidationSetting)
+        {
+            // ignore messageValidationSetting.EnableFullValidation
+            return !messageValidationSetting.UndeclaredPropertyBehaviorKinds.HasFlag(
+                          ODataUndeclaredPropertyBehaviorKinds.SupportUndeclaredValueProperty);
+        }
+        #endregion
+
         /// <summary>
         /// Validates that an open property value is supported.
         /// </summary>
